@@ -1,0 +1,151 @@
+<html xmlns:tei="http://www.tei-c.org/ns/1.0">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>ODDViz</title>
+      <link type="text/css" href="css/jit/base.css" rel="stylesheet">
+      <link type="text/css" href="css/jit/BarChart.css" rel="stylesheet"><script type="text/JavaScript" src="js/lib/jquery-1.4.2.min.js"></script><script type="text/JavaScript" src="js/lib/jit-yc.js"></script><script type="text/JavaScript" src="js/main.js"></script><script type="text/JavaScript">
+  
+  var Jmodules = {
+      'color': [
+        '#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc',],
+      'label' : [
+      'textstructure','tei','tagdocs','linking','header','gaiji','figures','dictionaries','core','verse','drama','spoken','msdescription','transcr','textcrit','namesdates','corpus','analysis','iso-fs','nets','certainty',
+      ],
+      'values': [
+      {
+        'label': 'Modules: 9 / 21',
+        'values': [
+        1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+      }]
+      
+  };
+  
+  var Jclasses = {
+      'color': [
+        '#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc',],
+      'label' : [
+      'att.ascribed','att.canonical','att.ranging','att.dimensions','att.damaged','att.breaking','att.datable.w3c','att.datable','att.datcat','att.declarable','att.declaring','att.divLike','att.docStatus','att.duration.w3c','att.responsibility','att.editLike','att.global','att.handFeatures','att.internetMedia','att.interpLike','att.measurement','att.naming','att.placement','att.typed','att.pointing','att.pointing.group','att.readFrom','att.scoping','att.segLike','att.sortable','att.sourced','att.spanning','att.tableDecoration','att.timed','att.transcriptional','att.translatable','model.nameLike.agent','model.segLike','model.hiLike','model.emphLike','model.highlighted','model.dateLike','model.dimLike','model.measureLike','model.egLike','model.graphicLike','model.offsetLike','model.pPart.msdesc','model.pPart.editorial','model.pPart.transcriptional','model.pPart.edit','model.linePart','model.ptrLike','model.lPart','model.global.meta','model.milestoneLike','model.gLike','model.oddDecl','model.oddRef','model.phrase.xml','model.specDescLike','model.biblLike','model.headLike','model.labelLike','model.listLike','model.noteLike','model.lLike','model.pLike','model.stageLike','model.featureVal.complex','model.featureVal.single','model.entryPart','model.entryPart.top','model.global.edit','model.divPart','model.persStateLike','model.persEventLike','model.personLike','model.personPart','model.placeNamePart','model.placeStateLike','model.placeEventLike','model.orgPart','model.publicationStmtPart','model.availabilityPart','model.certLike','model.glossLike','model.quoteLike','model.qLike','model.respLike','model.divWrapper','model.divTopPart','model.divTop','model.frontPart.drama','model.pLike.front','model.divBottomPart','model.divBottom','model.titlepagePart','model.msQuoteLike','model.msItemPart','model.choicePart','model.imprintPart','model.catDescPart','model.settingPart','model.textDescPart','model.castItemPart','model.physDescPart','model.addressLike','model.nameLike','model.global','model.featureVal','model.biblPart','model.frontPart','model.addrPart','model.pPart.data','model.inter','model.common','model.phrase','model.limitedPhrase','model.divLike','model.divGenLike','model.div1Like','model.div2Like','model.div3Like','model.div4Like','model.div5Like','model.div6Like','model.div7Like','model.applicationLike','model.teiHeaderPart','model.sourceDescPart','model.encodingDescPart','model.editorialDeclPart','model.profileDescPart','model.resourceLike','model.orgStateLike','att.personal','model.placeLike','att.combinable','att.identified','att.global.linking','model.entryLike','att.entryLike','att.lexicographic','model.morphLike','model.gramPart','model.formPart','model.ptrLike.form','att.datable.custom','att.duration','model.global.spoken','model.rdgLike','model.recordingPart','model.persNamePart','att.metrical','att.enjamb','model.divPart.spoken','att.msExcerpt','att.global.facs','att.global.change','att.coordinated','model.rdgPart','att.rdgPart','att.witnessed','att.textCritical','att.datable.iso','att.duration.iso','att.global.analytic',
+      ],
+      'values': [
+      {
+        'label': 'Classes: 148 / 168',
+        'values': [
+        1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+      }]
+      
+  };
+  
+  var Jelements = {
+      'color': [
+        '#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#E01B28','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#E01B28','#1BE070','#1BE070','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc','#ccc',],
+      'label' : [
+      'TEI','text','body','group','floatingText','div','div1','div2','div3','div4','div5','div6','div7','trailer','byline','dateline','argument','epigraph','opener','closer','salute','signed','postscript','titlePage','docTitle','titlePart','docAuthor','imprimatur','docEdition','docImprint','docDate','front','back','att','code','eg','egXML','gi','ident','tag','val','specList','specDesc','classRef','elementRef','macroRef','moduleRef','moduleSpec','schemaSpec','specGrp','specGrpRef','elementSpec','classSpec','macroSpec','remarks','listRef','exemplum','classes','memberOf','equiv','altIdent','content','constraint','constraintSpec','attList','attDef','attRef','datatype','defaultVal','valDesc','valItem','valList','link','linkGrp','ab','anchor','seg','when','timeline','join','joinGrp','alt','altGrp','teiHeader','fileDesc','titleStmt','sponsor','funder','principal','editionStmt','edition','extent','publicationStmt','distributor','authority','idno','availability','licence','seriesStmt','notesStmt','sourceDesc','biblFull','encodingDesc','projectDesc','samplingDecl','editorialDecl','correction','normalization','quotation','hyphenation','segmentation','stdVals','interpretation','tagsDecl','tagUsage','namespace','rendition','refsDecl','cRefPattern','refState','classDecl','taxonomy','category','catDesc','appInfo','application','profileDesc','handNote','creation','langUsage','language','textClass','keywords','classCode','catRef','calendarDesc','calendar','revisionDesc','change','typeNote','scriptNote','listChange','geoDecl','g','char','charName','charProp','charDecl','glyph','glyphName','localName','mapping','unicodeName','value','table','row','cell','formula','notatedMusic','figure','figDesc','superEntry','entry','entryFree','hom','sense','dictScrap','form','orth','pron','hyph','syll','stress','gram','gen','number','case','per','tns','mood','iType','gramGrp','pos','subc','colloc','def','etym','lang','usg','lbl','xr','re','oRef','oVar','pRef','pVar','p','foreign','emph','hi','distinct','said','quote','q','cit','mentioned','soCalled','desc','gloss','term','sic','corr','choice','reg','orig','gap','add','del','unclear','name','rs','email','address','addrLine','street','postCode','postBox','num','measure','measureGrp','date','time','abbr','expan','ptr','ref','list','item','label','head','headLabel','headItem','note','index','graphic','binaryObject','milestone','gb','pb','lb','cb','analytic','monogr','series','author','editor','respStmt','resp','title','meeting','imprint','publisher','biblScope','pubPlace','bibl','biblStruct','listBibl','relatedItem','l','lg','sp','speaker','stage','teiCorpus','divGen','textLang','metDecl','metSym','caesura','rhyme','set','prologue','epilogue','performance','castList','castGroup','castItem','role','roleDesc','actor','spGrp','move','view','camera','sound','caption','tech','scriptStmt','recordingStmt','recording','equipment','broadcast','u','pause','vocal','kinesic','incident','writing','shift','msDesc','catchwords','dimensions','dim','height','depth','width','heraldry','locus','locusGrp','material','objectType','origDate','origPlace','secFol','signatures','stamp','watermark','msIdentifier','institution','repository','collection','altIdentifier','msName','colophon','explicit','filiation','finalRubric','incipit','msContents','msItem','msItemStruct','rubric','summary','physDesc','objectDesc','supportDesc','support','collation','foliation','condition','layoutDesc','layout','handDesc','typeDesc','scriptDesc','musicNotation','decoDesc','decoNote','additions','bindingDesc','binding','sealDesc','seal','accMat','history','origin','provenance','acquisition','additional','adminInfo','recordHist','source','custodialHist','custEvent','surrogates','msPart','facsimile','sourceDoc','surface','surfaceGrp','zone','addSpan','damage','damageSpan','delSpan','ex','fw','handNotes','handShift','am','restore','space','subst','substJoin','supplied','surplus','line','listTranspose','metamark','mod','redo','retrace','transpose','undo','app','lem','rdg','rdgGrp','witDetail','wit','listWit','witness','witStart','witEnd','lacunaStart','lacunaEnd','variantEncoding','orgName','persName','surname','forename','genName','nameLink','addName','roleName','placeName','bloc','country','region','district','settlement','offset','geogName','geogFeat','affiliation','age','birth','climate','death','education','event','faith','floruit','geo','langKnowledge','langKnown','listOrg','listEvent','listPerson','listPlace','location','nationality','occupation','org','listRelation','relationGrp','person','personGrp','place','population','relation','residence','sex','socecStatus','state','terrain','trait','nym','listNym','textDesc','particDesc','settingDesc','channel','constitution','derivation','domain','factuality','interaction','preparedness','purpose','setting','locale','activity','s','cl','phr','w','m','c','pc','span','spanGrp','interp','interpGrp','fsdDecl','fsDecl','fsDescr','fsdLink','fDecl','fDescr','vRange','vDefault','if','then','fsConstraints','cond','bicond','iff','fs','f','binary','symbol','numeric','string','vLabel','vColl','default','vAlt','vNot','vMerge','fLib','fvLib','graph','node','arc','tree','root','iNode','leaf','eTree','triangle','eLeaf','forest','listForest','precision','certainty','respons',
+      ],
+      'values': [
+      {
+        'label': 'Elements: 274 / 537',
+        'values': [
+        1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+      }]
+      
+  };
+ 
+  var Jmacros = {
+      'color': [
+        '#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#1BE070','#ED852F','#42C0FB',],
+      'label' : [
+      'macro.paraContent','macro.limitedContent','macro.phraseSeq','macro.phraseSeq.limited','macro.specialPara','macro.xtext','data.certainty','data.probability','data.numeric','data.count','data.temporal.w3c','data.duration.w3c','data.truthValue','data.xTruthValue','data.language','data.sex','data.namespace','data.outputMeasurement','data.pattern','data.point','data.pointer','data.version','data.word','data.text','data.code','data.name','data.enumerated','data.temporal.iso','data.duration.iso','macro.anyXML','macro.schemaPattern','anySchematron',
+      ],
+      'values': [
+      {
+        'label': 'Macros: 31 (+1) / 31',
+        'values': [
+        1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,],
+      }]
+      
+  };
+  
+  $(document).ready(function(){
+  
+  function drawGraph(json, div) {
+  
+  var barChart = new $jit.BarChart({
+      //id of the visualization container
+      injectInto: div,
+      //whether to add animations
+      animate: true,
+      //horizontal or vertical barcharts
+      orientation: 'vertical',
+      //bars separation
+      barsOffset: 20,
+      //visualization offset
+      Margin: {
+        top:5,
+        left: 5,
+        right: 5,
+        bottom:5
+      },
+      //labels offset position
+      labelOffset: 5,
+      //bars style
+      type: useGradients? 'stacked:gradient' : 'stacked',
+      //whether to show the aggregation of the values
+      showAggregates:false,
+      //whether to show the labels for the bars
+      showLabels:true,
+      //labels style
+      Label: {
+        type: labelType, //Native or HTML
+        size: 13,
+        family: 'Arial',
+        color: 'black'
+      },
+      //add tooltips
+      Tips: {
+        enable: true,
+        onShow: function(tip, elem) {
+          var Ttext = elem.name;
+          if (elem.color == '#ED852F') {Ttext = elem.name + '. you CHANGED this.'}
+          else if (elem.color == '#E01B28') {Ttext = elem.name + '. you DELETED this.'}
+          else if (elem.color == '#42C0FB') {Ttext = elem.name + '. you ADDED this.'}
+          tip.innerHTML = "<b>" + Ttext + "</b>";
+        }
+      }
+    });
+    //load JSON data.
+    barChart.loadJSON(json);
+    }
+    
+    drawGraph(Jmodules, 'modules');
+    drawGraph(Jclasses, 'classes');
+    drawGraph(Jmacros, 'macros');
+    drawGraph(Jelements, 'elements');
+    
+  });
+                </script></head>
+   <body>
+      <div id="modules" class="infovis" style="float:left;"></div>
+      <div id="classes" class="infovis" style="float:left;"></div>
+      <div id="macros" class="infovis" style="float:left;"></div>
+      <div id="elements" class="infovis" style="float:left;"></div>
+      <div style="float:left;">
+         <ul id="id-list">
+            <li>
+               <div class="query-color" style="background-color:#1BE070">&nbsp;</div>Included in customization
+            </li>
+            <li>
+               <div class="query-color" style="background-color:#ccc">&nbsp;</div>Not in customization
+            </li>
+            <li>
+               <div class="query-color" style="background-color:#E01B28">&nbsp;</div>Explicitly deleted
+            </li>
+            <li>
+               <div class="query-color" style="background-color:#ED852F">&nbsp;</div>Changed
+            </li>
+            <li>
+               <div class="query-color" style="background-color:#42C0FB">&nbsp;</div>Added
+            </li>
+         </ul>
+      </div>
+   </body>
+</html>
