@@ -273,6 +273,7 @@
                 </style>-->
             </head>
             <body>
+                <h1>Customization: <xsl:value-of select="normalize-space(//tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title)"/></h1>
                 <div id="modules" class="infovis" style="float:left;"></div>
                 <div id="classes" class="infovis" style="float:left;"></div>
                 <div id="macros" class="infovis" style="float:left;"></div>
