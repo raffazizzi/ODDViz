@@ -1,4 +1,4 @@
-var odd = {"title": "TEI for authoring ODD","edition": "","generator": "odd2json",
+{"title": "TEI for authoring ODD","edition": "","generator": "odd2json",
     "date":"2012-07-29T21:48:44Z","modules": [],"moduleRefs": [{"key":"","url":"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/relaxng.rng","desc":"","mode":""},
 {"key":"core","url":"","desc":"","mode":""},
 {"key":"dictionaries","url":"","desc":"","mode":""},
