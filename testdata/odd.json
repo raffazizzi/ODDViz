@@ -1,0 +1,16 @@
+var odd = {"title": "TEI for authoring ODD","edition": "","generator": "odd2json",
+    "date":"2012-07-29T21:48:44Z","modules": [],"moduleRefs": [{"key":"","url":"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/relaxng.rng","desc":"","mode":""},
+{"key":"core","url":"","desc":"","mode":""},
+{"key":"dictionaries","url":"","desc":"","mode":""},
+{"key":"figures","url":"","desc":"","mode":""},
+{"key":"gaiji","url":"","desc":"","mode":""},
+{"key":"header","url":"","desc":"","mode":""},
+{"key":"linking","url":"","desc":"","mode":""},
+{"key":"tagdocs","url":"","desc":"","mode":""},
+{"key":"tei","url":"","desc":"","mode":""},
+{"key":"textstructure","url":"","desc":"","mode":""}
+],"elements": [{"ident":"handNote","module":"header","desc":"","mode":"delete","model":"EMPTY","children":[],"attributes":[]},
+{"ident":"teiCorpus","module":"core","desc":"","mode":"delete","model":"EMPTY","children":[],"attributes":[]}
+],"attclasses": [],"elementRefs": [],"modelclasses": [],"classRefs": [],"macros": [{"ident":"anySchematron","type":"","desc":"","mode":"add"},
+{"ident":"macro.schemaPattern","type":"","desc":"","mode":"change"}
+],"macroRefs": []}
