@@ -1,4 +1,4 @@
-var P5 = {"title": "The TEI Guidelines","edition": "2.1.0. Last updated on 17th June 2012.","generator": "odd2json",
+{"title": "The TEI Guidelines","edition": "2.1.0. Last updated on 17th June 2012.","generator": "odd2json",
     "date":"2012-07-29T21:56:44Z","modules": [{"ident":"analysis","desc":"Simple analytic mechanisms","mode":""},
 {"ident":"certainty","desc":"Certainty and uncertainty","mode":""},
 {"ident":"core","desc":"Elements common to all TEI documents","mode":""},
