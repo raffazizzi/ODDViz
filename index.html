@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body {background-color: Silver;}
+</style>
+<body>
+<script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
+
+// Set up SVG
+var width = 960,
+    height = 500;
+
+var svg = d3.select("body").append("svg:svg")
+    .attr("width", width)
+    .attr("height", height);
+
+// Get asynchronous data.
+// Load customization first, because it's likely to be smaller, then P5
+d3.json("testdata/odd.json", function(odd) {
+    d3.json("testdata/p5.json", function(p5) {
+        
+        // Interpolating data to understand the customization...
+        
+        // Modules
+        modules = [];
+        TEImodules = p5.modules;
+        moduleRefs = odd.moduleRefs;
+
+        // So this gives me the references modules (so what should be excluded)
+        var filtered = TEImodules.filter(function(e, i) {
+            for (var j = 0; j < moduleRefs.length; j++) {
+                if (e.ident == moduleRefs[j].key) {
+                  return 1
+                }
+            } 
+        });
+
+        console.log(filtered);
+
+        for (var i = 0; i < TEImodules.length; i++) {
+            modules.push(TEImodules[i]);
+            for (var j = 0; j < moduleRefs.length; j++) {
+                if (TEImodules[i].ident == moduleRefs[j].key) {
+                  modules.push(moduleRefs[j]);
+                  modules.splice(modules.indexOf(TEImodules[i]), 1);
+                }
+            }
+        }
+
+        modules.sort(function(a,b){
+            nameA = a.ident===undefined ? a.key : a.ident
+            nameB = b.ident===undefined ? b.key : b.ident
+            // first sort by type, then sort alphabetically
+            if ((a.ident===undefined && b.ident===undefined) || 
+                (a.ident!==undefined && b.ident!==undefined)) {
+                if (nameA > nameB) {
+                    return 1;
+                }
+                else {return -1}
+            }
+            else if (a.ident===undefined){return -1;}
+            else {return 1;}
+            return 0;
+        });
+
+        // Classes
+        TEIclasses = p5.modelclasses;
+        classRefs = odd.classRefs;
+        
+        classes = [];
+        
+        for (var i = 0; i < TEIclasses.length; i++) {
+            classes.push(TEIclasses[i]);
+            for (var j = 0; j < modules.length; j++) {
+                if (modules[j].key!==undefined) {
+                  if (TEIclasses[i].module == modules[j].key) {
+                    classes[classes.indexOf(TEIclasses[i])].include = 'yes';
+                  }
+                }
+            }
+        }
+
+        classes.sort(function(a,b){
+            // first sort by type, then sort alphabetically
+            if ((a.include===undefined && b.include===undefined) ||
+                (a.include!==undefined && b.include!==undefined)) {
+                if (a.ident > a.ident) {
+                    return 1;
+                }
+                else {return -1}
+            }
+            else if (a.include===undefined){return 11;}
+            else {return -1;}
+            return 0;
+        });
+
+        // Macros
+        TEImacros = p5.macros;
+        ODDmacros = odd.macros
+        macroRefs = odd.macroRefs;
+        
+        macros = [];
+        
+        for (var i = 0; i < TEImacros.length; i++) {
+            macros.push(TEImacros[i]);
+            // Include if part of included modules
+            for (var j = 0; j < modules.length; j++) {
+                if (modules[j].key!==undefined) {
+                  if (TEImacros[i].module == modules[j].key) {
+                    macros[macros.indexOf(TEImacros[i])].include = 'yes';
+                  }
+                }
+            }
+            for (var x = 0; x < ODDmacros.length; x++) {
+                if (TEImacros[i].ident==ODDmacros[x].ident) {
+                    // The macro is overriden in ODD? Replace it.
+                    macros.splice(macros.indexOf(TEImacros[i]), 1);
+                    macros.push(ODDmacros[x]);
+                }
+                // New macro
+                else if (ODDmacros[x].mode=='add') {
+                    macros.push(ODDmacros[x]);
+                }
+            }
+            // Add Refs
+            for (var y = 0; y < macroRefs.length; y++) {
+                if (macroRefs[y].key == TEImacros[i].ident) {
+                    // if it's from an arleady included module, flag it with a warning.
+                    for (var m = 0; m < modules.length; m++) {
+                        if (modules[m].key!==undefined) {
+                          if (macroRefs[y].module == modules[m].key) {
+                            macroRefs[y].warning = 'Referenced macro is already included.';
+                          }
+                        }
+                    }
+                    macros.push(macroRefs[y]);
+                }            
+            }
+        }
+
+        // Now let's plot this, etc.
+
+        // Set scale for module data
+        var modules_x = d3.scale.linear()
+        .domain([0, modules.length])
+        .range([0, width]); 
+
+        modulesBar = svg.selectAll("rect.modules")
+            .data(modules)
+          .enter().append("svg:rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", width/modules.length-2)
+            .attr("height", 100)
+            .attr("title", function(d) {return d.key!==undefined ? d.key : d.ident})
+            .attr("fill", function(d) {return paint(d)})
+            .on("mouseover", onMouseOver)
+            .on("mouseout", function(){d3.select(this).style("stroke-width", "0");})
+          .transition()
+            .delay(100)
+            .duration(1000) 
+            .attr("x", function(d, i) {return modules_x(i);});
+
+        // Set scale for module data
+        var classes_x = d3.scale.linear()
+        .domain([0, classes.length])
+        .range([0, width]); 
+
+        classesBar = svg.selectAll("rect.classes")
+            .data(classes)
+          .enter().append("svg:rect")
+            .attr("x", 0)
+            .attr("y", 110)
+            .attr("width",  width/classes.length-2)
+            .attr("height", 100)
+            .attr("title", function(d) {return d.key!==undefined ? d.key : d.ident})
+            .attr("fill", function(d) {return paint(d)})
+            .on("mouseover", onMouseOver)
+            .on("mouseout", function(){d3.select(this).style("stroke-width", "0");})
+          .transition()
+            .delay(100)
+            .duration(1000) 
+            .attr("x", function(d, i) {return classes_x(i);});
+
+    });
+});
+
+var onMouseOver = function(d){
+    obj = d3.select(this);
+
+    obj.style("stroke-width", "3"); 
+    obj.style("stroke", colors.selected);
+    // Find a way to put a tooltip here?
+} 
+
+var colors = {
+    'add' : 'Cyan',
+    'change' : 'Orange',
+    'delete' : 'Red',
+    'included' : '#90EE90',
+    'excluded' : 'White',
+    'selected' : '#5F9EA0',
+    'warning' : 'Yellow',
+}
+
+var paint = function(d) {
+        return d.key===undefined && d.include===undefined ? colors.excluded : (d.mode===undefined || d.mode=='' ? colors.included : colors[d.mode]);         
+}
+
+</script>
