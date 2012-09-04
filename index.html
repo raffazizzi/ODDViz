@@ -267,7 +267,7 @@ var onMouseOver = function(d){
 var onMouseMove = function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");}
 
 var onMouseOut = function(){
-    d3.select(this).style("stroke-width", "0");
+    d3.select(this).style("stroke", "none");
     tooltip.style("visibility", "hidden").text("");
 }
 
