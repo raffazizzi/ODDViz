@@ -283,7 +283,7 @@ var colors = {
 
 var paint = function(d) {
         //a definition
-        if (d.noneOf(["key", "include"], true)) {return colors.excluded}
+        if (d.noneOf(["key", "include"], true) && d.noneOf(["mode"])) {return colors.excluded}
         //an external component
         else if (d.anyOf(["url"])) {return colors.add;}
         //flagged
