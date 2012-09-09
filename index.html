@@ -44,9 +44,49 @@ flatten = function(array, property) {
     return flat;
 }
 
-// Set up SVG
+// Rendering and animation components
+
+var onMouseOver = function(d){
+    obj = d3.select(this);
+    obj.style("stroke-width", "3"); 
+    obj.style("stroke", colors.selected);
+    tooltip.style("visibility", "visible")
+        .text("ident" in d ? d.ident : ("key" in d && d.key !== '' ? d.key : d.url))  ;
+} 
+
+var onMouseMove = function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");}
+
+var onMouseOut = function(){
+    d3.select(this).style("stroke", "none");
+    tooltip.style("visibility", "hidden").text("");
+}
+
+var colors = {
+    'add' : 'Cyan',
+    'change' : 'Orange',
+    'delete' : 'Red',
+    'included' : '#90EE90',
+    'excluded' : 'White',
+    'selected' : '#5F9EA0',
+    'warning' : 'Yellow',
+}
+
+var paint = function(d) {
+        //a definition
+        if (d.noneOf(["key", "include"], true) && d.noneOf(["mode"])) {return colors.excluded}
+        //an external component
+        else if (d.anyOf(["url"])) {return colors.add;}
+        //flagged
+        else if (d.flag) {return colors.warning}
+        //referenced, included
+        else if (d.noneOf(["mode"])) {return colors.included;}
+        //default
+        else {return colors[d.mode];}
+}
+
+// Seting up SVG
 var width = 960,
-    height = 500;
+    height = 600;
 
 var svg = d3.select("body").append("svg:svg")
     .attr("width", width)
@@ -157,47 +197,109 @@ d3.json("testdata/odd.json", function(odd) {
 
         // Macros
         TEImacros = p5.macros;
-        ODDmacros = odd.macros
         macroRefs = odd.macroRefs;
+        macroSpecs = odd.macros
         
+        // Flatten new macros
+        MS_idents = flatten(classSpecs, "ident");
+
         macros = [];
-        
         for (var i = 0; i < TEImacros.length; i++) {
-            macros.push(TEImacros[i]);
-            // Include if part of included modules
-            for (var j = 0; j < modules.length; j++) {
-                if ("key" in modules[j]) {
-                  if (TEImacros[i].module == modules[j].key) {
+            // only push if not redefined in the customization ODD
+            if (MS_idents.indexOf(TEImacros[i].ident) == -1) {
+                macros.push(TEImacros[i]);
+                if (active_modules.indexOf(TEImacros[i].module) != -1) {
                     macros[macros.indexOf(TEImacros[i])].include = 'yes';
-                  }
                 }
             }
-            for (var x = 0; x < ODDmacros.length; x++) {
-                if (TEImacros[i].ident==ODDmacros[x].ident) {
-                    // The macro is overriden in ODD? Replace it.
-                    macros.splice(macros.indexOf(TEImacros[i]), 1);
-                    macros.push(ODDmacros[x]);
-                }
-                // New macro
-                else if (ODDmacros[x].mode=='add') {
-                    macros.push(ODDmacros[x]);
-                }
-            }
-            // Add Refs
-            /*for (var y = 0; y < macroRefs.length; y++) {
-                if (macroRefs[y].key == TEImacros[i].ident) {
-                    // if it's from an arleady included module, flag it with a warning.
-                    for (var m = 0; m < modules.length; m++) {
-                        if (modules[m].key!==undefined) {
-                          if (macroRefs[y].module == modules[m].key) {
-                            macroRefs[y].warning = 'Referenced macro is already included.';
-                          }
-                        }
-                    }
-                    macros.push(macroRefs[y]);
-                }            
-            }*/
         }
+
+        // Include new or overriden classes from customization ODD
+        macros.push.apply(macros, macroSpecs);
+
+        // Create a simplified list of active classes so far. 
+        active_macros = [];
+        for (var i = 0; i < macros.length; i++) {
+            if ("key" in macros[i]) {active_macros.push(macros[i].key)}
+            else if ("include" in macros[i]) {active_macros.push(macros[i].ident)}
+        }
+
+        // If references are part of an already referenced module, flag them.
+        for (var i = 0; i < macroRefs.length; i++) {
+            if (active_macros.indexOf(macroRefs[i].key) != -1) {
+                macroRefs[i].flag = 'Already included';
+            }
+        }
+
+        // add the refs
+        macros.push.apply(macros, macroRefs);
+
+        macros.sort(function(a,b){
+            // first sort by type, then sort alphabetically
+            if ((!("include" in a) && !("include" in b) ||
+                ("include" in a && "include" in b))) {
+                if (a.ident > a.ident) {
+                    return 1;
+                }
+                else {return 0}
+            }
+            else if (!("include" in a)){return 1;}
+            else {return 0;}
+            return 0;
+        });
+
+        // Elements
+        TEIelements = p5.elements;
+        elementRefs = odd.elementRefs;
+        elementSpecs = odd.macros
+
+        // Flatten new macros
+        ES_idents = flatten(elementSpecs, "ident");
+
+        elements = [];
+        for (var i = 0; i < TEIelements.length; i++) {
+            // only push if not redefined in the customization ODD
+            if (ES_idents.indexOf(TEIelements[i].ident) == -1) {
+                elements.push(TEIelements[i]);
+                if (active_modules.indexOf(TEIelements[i].module) != -1) {
+                    elements[elements.indexOf(TEIelements[i])].include = 'yes';
+                }
+            }
+        }
+
+        // Include new or overriden classes from customization ODD
+        elements.push.apply(elements, elementSpecs);
+
+        // Create a simplified list of active classes so far. 
+        active_elements = [];
+        for (var i = 0; i < elements.length; i++) {
+            if ("key" in elements[i]) {active_elements.push(elements[i].key)}
+            else if ("include" in elements[i]) {active_elements.push(elements[i].ident)}
+        }
+
+        // If references are part of an already referenced module, flag them.
+        for (var i = 0; i < elementRefs.length; i++) {
+            if (active_elements.indexOf(elementRefs[i].key) != -1) {
+                elementRefs[i].flag = 'Already included';
+            }
+        }
+
+        // add the refs
+        elements.push.apply(elements, elementRefs);
+
+        elements.sort(function(a,b){
+            // first sort by type, then sort alphabetically
+            if ((!("include" in a) && !("include" in b) ||
+                ("include" in a && "include" in b))) {
+                if (a.ident > a.ident) {
+                    return 1;
+                }
+                else {return 0}
+            }
+            else if (!("include" in a)){return 1;}
+            else {return 0;}
+            return 0;
+        });
 
         // Now let's plot this, etc.
 
@@ -253,45 +355,51 @@ d3.json("testdata/odd.json", function(odd) {
             .duration(1000) 
             .attr("x", function(d, i) {return classes_x(i);});
 
+        // Set scale for module data
+        var macros_x = d3.scale.linear()
+        .domain([0, macros.length])
+        .range([0, width]); 
+
+        macrosBar = svg.selectAll("rect.macros")
+            .data(macros)
+          .enter().append("svg:rect")
+            .attr("x", 0)
+            .attr("y", 220)
+            .attr("width",  width/macros.length-2)
+            .attr("height", 100)
+            .attr("title", function(d) {return "key" in d ? d.key : d.ident})
+            .attr("fill", function(d) {return paint(d)})
+            .on("mouseover", onMouseOver)
+            .on("mousemove", onMouseMove)
+            .on("mouseout", onMouseOut)
+          .transition()
+            .delay(100)
+            .duration(1000) 
+            .attr("x", function(d, i) {return macros_x(i);});
+
+        // Set scale for element data
+        var elements_x = d3.scale.linear()
+        .domain([0, elements.length])
+        .range([0, width]); 
+
+        elementsBar = svg.selectAll("rect.elements")
+            .data(elements)
+          .enter().append("svg:rect")
+            .attr("x", 0)
+            .attr("y", 330)
+            .attr("width",  width/elements.length)
+            .attr("height", 100)
+            .attr("title", function(d) {return "key" in d ? d.key : d.ident})
+            .attr("fill", function(d) {return paint(d)})
+            .on("mouseover", onMouseOver)
+            .on("mousemove", onMouseMove)
+            .on("mouseout", onMouseOut)
+          .transition()
+            .delay(100)
+            .duration(1000) 
+            .attr("x", function(d, i) {return elements_x(i);});
+
     });
 });
-
-var onMouseOver = function(d){
-    obj = d3.select(this);
-    obj.style("stroke-width", "3"); 
-    obj.style("stroke", colors.selected);
-    tooltip.style("visibility", "visible")
-        .text("ident" in d ? d.ident : ("key" in d && d.key !== '' ? d.key : d.url))  ;
-} 
-
-var onMouseMove = function(){return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");}
-
-var onMouseOut = function(){
-    d3.select(this).style("stroke", "none");
-    tooltip.style("visibility", "hidden").text("");
-}
-
-var colors = {
-    'add' : 'Cyan',
-    'change' : 'Orange',
-    'delete' : 'Red',
-    'included' : '#90EE90',
-    'excluded' : 'White',
-    'selected' : '#5F9EA0',
-    'warning' : 'Yellow',
-}
-
-var paint = function(d) {
-        //a definition
-        if (d.noneOf(["key", "include"], true) && d.noneOf(["mode"])) {return colors.excluded}
-        //an external component
-        else if (d.anyOf(["url"])) {return colors.add;}
-        //flagged
-        else if (d.flag) {return colors.warning}
-        //referenced, included
-        else if (d.noneOf(["mode"])) {return colors.included;}
-        //default
-        else {return colors[d.mode];}
-}
 
 </script>
