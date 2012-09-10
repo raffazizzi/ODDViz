@@ -4,6 +4,13 @@
 <style>
 body {background-color: Silver;
       font-family: 'Droid Serif', serif;}
+
+.brush .extent {
+    stroke: gray;
+    fill: blue;
+    fill-opacity: .165;
+}
+
 </style>
 <body>
 <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
@@ -377,27 +384,66 @@ d3.json("testdata/odd.json", function(odd) {
             .duration(1000) 
             .attr("x", function(d, i) {return macros_x(i);});
 
+        elementsBar = function(elements_range) {
+
+            var elements_x = d3.scale.linear()
+            .domain([0, elements_range.length])
+            .range([0, width]); 
+
+            svg.selectAll("rect.elements").remove();
+
+            var rectElements = svg.selectAll("rect.elements")
+                .data(elements_range)
+              .enter().append("svg:rect")
+                .attr("class", "elements")
+                .attr("x", function(d, i) {return elements_x(i);})
+                .attr("y", 330)
+                .attr("width",  width/elements_range.length-2)
+                .attr("height", 100)
+                .attr("title", function(d) {return "key" in d ? d.key : d.ident})
+                .attr("fill", function(d) {return paint(d)})
+                .on("mouseover", onMouseOver)
+                .on("mousemove", onMouseMove)
+                .on("mouseout", onMouseOut);
+        }
+
+        var element_start = 51;
+        elementsBar(elements.slice(0,element_start));
+
+
         // Set scale for element data
-        var elements_x = d3.scale.linear()
+        var elementsTiny_x = d3.scale.linear()
         .domain([0, elements.length])
         .range([0, width]); 
 
-        elementsBar = svg.selectAll("rect.elements")
+        elementsTinyBar = svg.selectAll("rect.elementsTiny")
             .data(elements)
           .enter().append("svg:rect")
-            .attr("x", 0)
-            .attr("y", 330)
+            .attr("x", function(d, i) {return elementsTiny_x(i);})
+            .attr("y", 440)
             .attr("width",  width/elements.length)
-            .attr("height", 100)
+            .attr("height", 20)
             .attr("title", function(d) {return "key" in d ? d.key : d.ident})
-            .attr("fill", function(d) {return paint(d)})
-            .on("mouseover", onMouseOver)
-            .on("mousemove", onMouseMove)
-            .on("mouseout", onMouseOut)
-          .transition()
-            .delay(100)
-            .duration(1000) 
-            .attr("x", function(d, i) {return elements_x(i);});
+            .attr("fill", function(d) {return paint(d)});
+
+        var xB = d3.scale.linear().range([0, width]);
+
+        svg.append("g")
+            .attr("class", "brush")
+            .call(d3.svg.brush().x(xB)
+            .extent([0,1*element_start/elements.length])
+            .on("brush", brush))
+          .selectAll("rect")
+            .attr("y", 440)
+            .attr("height", 20);
+
+        function brush() {
+            var s = d3.event.target.extent();
+            var start = Math.round((elements.length-1)*s[0]);
+            var end = Math.round((elements.length-1)*s[1]);
+
+            elementsBar(elements.slice(start,end));
+        }
 
     });
 });
