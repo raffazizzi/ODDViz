@@ -5,6 +5,11 @@
 body {background-color: Silver;
       font-family: 'Droid Serif', serif;}
 
+.label {
+    text-anchor: middle;
+    font-size: 80%;
+}
+
 .brush .extent {
     stroke: gray;
     fill: blue;
@@ -318,15 +323,29 @@ d3.json("testdata/odd.json", function(odd) {
             .style("visibility", "hidden")
             .style("font-size", "80%");
 
+        svg.append("svg:g")
+            .attr("class", "label")
+            .text("s")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 20)
+            .attr("height", 100)
+          .append("svg:text")
+            .attr("class", "label")
+            .text("Modules")
+            .attr("x", -50)
+            .attr("y", 12)
+            .attr("transform", "rotate(270)");
+
         // Set scale for module data
         var modules_x = d3.scale.linear()
         .domain([0, modules.length])
-        .range([0, width]); 
+        .range([22, width]); 
 
         modulesBar = svg.selectAll("rect.modules")
             .data(modules)
           .enter().append("svg:rect")
-            .attr("x", 0)
+            .attr("x", 22)
             .attr("y", 0)
             .attr("width", width/modules.length-2)
             .attr("height", 100)
@@ -340,15 +359,29 @@ d3.json("testdata/odd.json", function(odd) {
             .duration(1000) 
             .attr("x", function(d, i) {return modules_x(i);});
 
+        svg.append("svg:g")
+            .attr("class", "label")
+            .text("s")
+            .attr("x", 0)
+            .attr("y", 110)
+            .attr("width", 20)
+            .attr("height", 100)
+          .append("svg:text")
+            .attr("class", "label")
+            .text("Classes")
+            .attr("x", -50-110)
+            .attr("y", 12)
+            .attr("transform", "rotate(270)");
+
         // Set scale for module data
         var classes_x = d3.scale.linear()
         .domain([0, classes.length])
-        .range([0, width]); 
+        .range([22, width]); 
 
         classesBar = svg.selectAll("rect.classes")
             .data(classes)
           .enter().append("svg:rect")
-            .attr("x", 0)
+            .attr("x", 22)
             .attr("y", 110)
             .attr("width",  width/classes.length-2)
             .attr("height", 100)
@@ -362,15 +395,29 @@ d3.json("testdata/odd.json", function(odd) {
             .duration(1000) 
             .attr("x", function(d, i) {return classes_x(i);});
 
+        svg.append("svg:g")
+            .attr("class", "label")
+            .text("s")
+            .attr("x", 0)
+            .attr("y", 220)
+            .attr("width", 20)
+            .attr("height", 100)
+          .append("svg:text")
+            .attr("class", "label")
+            .text("Macros")
+            .attr("x", -50-220)
+            .attr("y", 12)
+            .attr("transform", "rotate(270)");
+
         // Set scale for module data
         var macros_x = d3.scale.linear()
         .domain([0, macros.length])
-        .range([0, width]); 
+        .range([22, width]); 
 
         macrosBar = svg.selectAll("rect.macros")
             .data(macros)
           .enter().append("svg:rect")
-            .attr("x", 0)
+            .attr("x", 22)
             .attr("y", 220)
             .attr("width",  width/macros.length-2)
             .attr("height", 100)
@@ -384,11 +431,26 @@ d3.json("testdata/odd.json", function(odd) {
             .duration(1000) 
             .attr("x", function(d, i) {return macros_x(i);});
 
-        elementsBar = function(elements_range) {
+        svg.append("svg:g")
+            .attr("class", "label")
+            .text("s")
+            .attr("x", 0)
+            .attr("y", 330)
+            .attr("width", 20)
+            .attr("height", 100)
+          .append("svg:text")
+            .attr("class", "label")
+            .text("Elements")
+            .attr("x", -50-330)
+            .attr("y", 12)
+            .attr("transform", "rotate(270)");
+
+        elementsBar = function(elements_range, animate) {
+            animate = (typeof animate === "undefined") ? false : animate;
 
             var elements_x = d3.scale.linear()
             .domain([0, elements_range.length])
-            .range([0, width]); 
+            .range([22, width]); 
 
             svg.selectAll("rect.elements").remove();
 
@@ -396,7 +458,7 @@ d3.json("testdata/odd.json", function(odd) {
                 .data(elements_range)
               .enter().append("svg:rect")
                 .attr("class", "elements")
-                .attr("x", function(d, i) {return elements_x(i);})
+                .attr("x", animate ? 22 :function(d, i) {return elements_x(i);})
                 .attr("y", 330)
                 .attr("width",  width/elements_range.length-2)
                 .attr("height", 100)
@@ -405,44 +467,60 @@ d3.json("testdata/odd.json", function(odd) {
                 .on("mouseover", onMouseOver)
                 .on("mousemove", onMouseMove)
                 .on("mouseout", onMouseOut);
-        }
+
+            if (animate) rectElements.transition()
+                .delay(100)
+                .duration(1000) 
+                .attr("x", function(d, i) {return elements_x(i);});
+    }
 
         var element_start = 51;
-        elementsBar(elements.slice(0,element_start));
+        elementsBar(elements.slice(0,element_start), true);
 
 
         // Set scale for element data
-        var elementsTiny_x = d3.scale.linear()
+        var elementsControl_x = d3.scale.linear()
         .domain([0, elements.length])
         .range([0, width]); 
 
-        elementsTinyBar = svg.selectAll("rect.elementsTiny")
+        elementsControlBar = svg.selectAll("rect.elementsControl")
             .data(elements)
           .enter().append("svg:rect")
-            .attr("x", function(d, i) {return elementsTiny_x(i);})
+            .attr("x", 0)
             .attr("y", 440)
             .attr("width",  width/elements.length)
             .attr("height", 20)
             .attr("title", function(d) {return "key" in d ? d.key : d.ident})
-            .attr("fill", function(d) {return paint(d)});
-
-        var xB = d3.scale.linear().range([0, width]);
+            .attr("fill", function(d) {return paint(d)})
+          .transition()
+            .delay(100)
+            .duration(1000) 
+            .attr("x", function(d, i) {return elementsControl_x(i);});
 
         svg.append("g")
             .attr("class", "brush")
-            .call(d3.svg.brush().x(xB)
-            .extent([0,1*element_start/elements.length])
-            .on("brush", brush))
+            .call(d3.svg.brush().x(d3.scale.linear().range([0, width]))
+            .extent([0,element_start/elements.length])
+            .on("brush", brushmove))
           .selectAll("rect")
+            .attr("x", 0)
             .attr("y", 440)
             .attr("height", 20);
 
-        function brush() {
+        function brushmove() {
             var s = d3.event.target.extent();
-            var start = Math.round((elements.length-1)*s[0]);
-            var end = Math.round((elements.length-1)*s[1]);
+            var ext = s[1]-s[0];
+            if (ext < 0.5 && ext > 0.03) {
+                var start = Math.round((elements.length-1)*s[0]);
+                var end = Math.round((elements.length-1)*s[1]);
 
-            elementsBar(elements.slice(start,end));
+                elementsBar(elements.slice(start,end));
+            }
+            else if (ext < 0.03) {
+                d3.event.target.extent([s[0],s[0]+0.03]); d3.event.target(d3.select(this));
+            }
+            else {d3.event.target.extent([s[0],s[0]+0.5]); d3.event.target(d3.select(this));}            
+
         }
 
     });
