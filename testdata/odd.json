@@ -1,5 +1,5 @@
 {"title": "TEI for authoring ODD","edition": "","generator": "odd2json",
-    "date":"2012-08-10T10:34:52Z","modules": [],"moduleRefs": [{"key":"","url":"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/relaxng.rng","desc":"","mode":""},
+    "date":"2012-10-02T15:08:42Z","modules": [],"moduleRefs": [{"key":"","url":"http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/relaxng.rng","desc":"","mode":""},
 {"key":"core","url":"","desc":"","mode":""},
 {"key":"dictionaries","url":"","desc":"","mode":""},
 {"key":"figures","url":"","desc":"","mode":""},
@@ -11,6 +11,11 @@
 {"key":"textstructure","url":"","desc":"","mode":""}
 ],"elements": [{"ident":"handNote","module":"header","desc":"","mode":"delete","model":"EMPTY","children":[],"attributes":[]},
 {"ident":"teiCorpus","module":"core","desc":"","mode":"delete","model":"EMPTY","children":[],"attributes":[]}
-],"attclasses": [],"elementRefs": [],"modelclasses": [],"classRefs": [],"macros": [{"ident":"anySchematron","module":"","type":"","desc":"","mode":"add"},
+],"attclasses": [],"elementRefs": [{"key":"abbr","desc":"","mode":""},
+{"key":"adminInfo","desc":"","mode":""}
+],"modelclasses": [{"ident":"model.addrPart","type":"model","module":"","desc":"","mode":"delete"},
+{"ident":"test","type":"model","module":"","desc":"","mode":"add"}
+],"classRefs": [{"key":"model.addressLike","desc":"","mode":""}
+],"macros": [{"ident":"anySchematron","module":"","type":"","desc":"","mode":"add"},
 {"ident":"macro.schemaPattern","module":"tagdocs","type":"","desc":"","mode":"change"}
 ],"macroRefs": []}
